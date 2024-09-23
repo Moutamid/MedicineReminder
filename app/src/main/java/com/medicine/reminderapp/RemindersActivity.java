@@ -5,27 +5,20 @@ import static android.view.View.GONE;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.PowerManager;
-import android.provider.Settings;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -43,7 +36,6 @@ import com.fxn.stash.Stash;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.BuildConfig;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
@@ -76,6 +68,8 @@ public class RemindersActivity extends AppCompatActivity implements ActionMode.C
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reminders);
+
+        Constants.checkApp(this);
         Log.d(TAG, "onCreate: started");
 
         rARootLayout = findViewById(R.id.ch_root_layout);
@@ -247,7 +241,7 @@ public class RemindersActivity extends AppCompatActivity implements ActionMode.C
                     int newCode = new Random().nextInt(9999);
                     int oldCode = Stash.getInt(latestReminder.getReminderTitle(), newCode);
 
-                    if (oldCode == newCode){
+                    if (oldCode == newCode) {
                         Stash.put(latestReminder.getReminderTitle(), newCode);
                         oldCode = newCode;
                     }

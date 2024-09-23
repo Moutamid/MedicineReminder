@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -29,8 +28,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 public class UserSignup extends AppCompatActivity {
-    EditText email, password, nameFull, phone, confpassword,address;
-    String emailStr, passwordStr, fullName, phoneSt,confpass,stAddress;
+    EditText email, password, nameFull, phone, confpassword, address;
+    String emailStr, passwordStr, fullName, phoneSt, confpass, stAddress;
     Button signUpBt;
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     StorageReference storageReference;
@@ -38,8 +37,8 @@ public class UserSignup extends AppCompatActivity {
     CheckBox checkBox;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabaseUsers;
-    boolean shownpass=  false;
-    boolean shownpass2=  false;
+    boolean shownpass = false;
+    boolean shownpass2 = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,22 +53,20 @@ public class UserSignup extends AppCompatActivity {
         address = findViewById(R.id.ed_address);
         phone = findViewById(R.id.ed_phone);
         signUpBt = findViewById(R.id.bt_signup);
-        checkBox=findViewById(R.id.checkBox);
+        checkBox = findViewById(R.id.checkBox);
         storageReference = FirebaseStorage.getInstance().getReference();
 
 
-
-
-        nameFull.setFilters(new InputFilter[] {
+        nameFull.setFilters(new InputFilter[]{
                 new InputFilter() {
                     @Override
                     public CharSequence filter(CharSequence cs, int start,
                                                int end, Spanned spanned, int dStart, int dEnd) {
                         // TODO Auto-generated method stub
-                        if(cs.equals("")){ // for backspace
+                        if (cs.equals("")) { // for backspace
                             return cs;
                         }
-                        if(cs.toString().matches("[a-zA-Z ]+")){
+                        if (cs.toString().matches("[a-zA-Z ]+")) {
                             return cs;
                         }
                         return "";
@@ -108,21 +105,18 @@ public class UserSignup extends AppCompatActivity {
         confpass = confpassword.getText().toString();
 
 
-
         // Checking if Fields are empty or not
-        if (!TextUtils.isEmpty(fullName) && !TextUtils.isEmpty(emailStr) && !TextUtils.isEmpty(passwordStr) && passwordStr.length() >=8 && !TextUtils.isEmpty(phoneSt)  && !TextUtils.isEmpty(stAddress) && !TextUtils.isEmpty(confpass)) {
+        if (!TextUtils.isEmpty(fullName) && !TextUtils.isEmpty(emailStr) && !TextUtils.isEmpty(passwordStr) && passwordStr.length() >= 8 && !TextUtils.isEmpty(phoneSt) && !TextUtils.isEmpty(stAddress) && !TextUtils.isEmpty(confpass)) {
 
 
             // Signing up user
             if (passwordStr.equals(confpass)) {
                 if (checkBox.isChecked()) {
                     signUpUserWithNameAndPassword();
-                }
-                else {
+                } else {
                     Toast.makeText(this, "Please agree terms and condition", Toast.LENGTH_SHORT).show();
                 }
-            }
-            else {
+            } else {
                 Toast.makeText(this, "Password not matched", Toast.LENGTH_SHORT).show();
             }
 
@@ -132,46 +126,38 @@ public class UserSignup extends AppCompatActivity {
             nameFull.setError("Please provide your Name");
             nameFull.requestFocus();
 
-        }  else if (TextUtils.isEmpty(phoneSt)) {
+        } else if (TextUtils.isEmpty(phoneSt)) {
 
 
             phone.setError("Please provide a phone number");
             phone.requestFocus();
 
 
-        }
-        else if (TextUtils.isEmpty(emailStr)) {
+        } else if (TextUtils.isEmpty(emailStr)) {
 
 
             email.setError("Please provide a email");
             email.requestFocus();
 
 
-        }
-
-        else if (TextUtils.isEmpty(stAddress)) {
+        } else if (TextUtils.isEmpty(stAddress)) {
 
 
             address.setError("Please provide address");
             address.requestFocus();
 
 
-        }
-
-
-        else if (TextUtils.isEmpty(passwordStr)) {
+        } else if (TextUtils.isEmpty(passwordStr)) {
 
             password.setError("Please provide a password");
             password.requestFocus();
 
-        }
-        else if (passwordStr.length() < 8) {
+        } else if (passwordStr.length() < 8) {
 
             password.setError("Minimum length should be 8");
             password.requestFocus();
 
-        }
-        else if (TextUtils.isEmpty(confpass)) {
+        } else if (TextUtils.isEmpty(confpass)) {
 
             confpassword.setError("Please provide confirm password");
             confpassword.requestFocus();
@@ -250,25 +236,25 @@ public class UserSignup extends AppCompatActivity {
     }
 
     public void shownPassFirst(View view) {
-        if(!shownpass){
+        if (!shownpass) {
             password.setTransformationMethod(new HideReturnsTransformationMethod());
-            shownpass=true;
+            shownpass = true;
 
-        } else{
+        } else {
             password.setTransformationMethod(new PasswordTransformationMethod());
 
-            shownpass=false;
+            shownpass = false;
         }
     }
 
     public void shownPassSecond(View view) {
-        if(!shownpass2){
+        if (!shownpass2) {
             confpassword.setTransformationMethod(new HideReturnsTransformationMethod());
-            shownpass2=true;
+            shownpass2 = true;
 
-        } else{
+        } else {
             confpassword.setTransformationMethod(new PasswordTransformationMethod());
-            shownpass2=false;
+            shownpass2 = false;
         }
     }
 }
